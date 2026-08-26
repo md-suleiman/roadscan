@@ -230,12 +230,19 @@ function Scanner() {
     }
   }, [detecting])
 
+  // =========================
+  // MOTION DETECTION
+  // =========================
+
   useEffect(() => {
     let lastTrigger = 0
-
     let lastZ = null
 
     const recentDeltas = []
+
+    let impactActive = false
+    let impactPeak = 0
+    let impactStart = 0
 
     const isWalkingPattern = () => {
       const now = Date.now()
@@ -295,6 +302,69 @@ function Scanner() {
       )
     }
 
+    const classifySeverity = (
+      peak
+    ) => {
+      if (peak >= 22) {
+        return 26
+      }
+
+      if (peak >= 14) {
+        return 19
+      }
+
+      return 12
+    }
+
+    const finishImpact = () => {
+      if (!impactActive)
+        return
+
+      impactActive = false
+
+      const peak = impactPeak
+
+      impactPeak = 0
+      impactStart = 0
+
+      const now = Date.now()
+
+      if (
+        now - lastTrigger <
+        1500
+      ) {
+        return
+      }
+
+      if (isWalkingPattern()) {
+        setStatus(
+          'Walking detected — ignored'
+        )
+
+        return
+      }
+
+      if (isSpeedbreaker()) {
+        setStatus(
+          'Speedbreaker detected — ignored'
+        )
+
+        return
+      }
+
+      // Ignore tiny movements
+      if (peak < 8) {
+        return
+      }
+
+      lastTrigger = now
+
+      const severity =
+        classifySeverity(peak)
+
+      reportPothole(severity)
+    }
+
     const handleMotion = (
       event
     ) => {
@@ -329,41 +399,31 @@ function Scanner() {
         delta.toFixed(2)
       )
 
-      const now = Date.now()
-
+      // Start measuring an impact
       if (
-        delta > 8 &&
-        now - lastTrigger > 1500
+        delta >= 8 &&
+        !impactActive
       ) {
-        if (isWalkingPattern()) {
-          setStatus(
-            'Walking detected — ignored'
-          )
+        impactActive = true
+        impactStart = Date.now()
+        impactPeak = delta
+      }
 
-          return
+      // Keep measuring the impact
+      // for a short window
+      if (impactActive) {
+        impactPeak = Math.max(
+          impactPeak,
+          delta
+        )
+
+        if (
+          Date.now() -
+            impactStart >=
+          350
+        ) {
+          finishImpact()
         }
-
-        if (isSpeedbreaker()) {
-          setStatus(
-            'Speedbreaker detected — ignored'
-          )
-
-          return
-        }
-
-        lastTrigger = now
-
-        let severity
-
-        if (delta > 22) {
-          severity = 26
-        } else if (delta > 14) {
-          severity = 19
-        } else {
-          severity = 12
-        }
-
-        reportPothole(severity)
       }
     }
 
@@ -374,8 +434,9 @@ function Scanner() {
         typeof DeviceMotionEvent.requestPermission ===
           'function'
       ) {
-        DeviceMotionEvent.requestPermission().then(
-          (permission) => {
+        DeviceMotionEvent
+          .requestPermission()
+          .then((permission) => {
             if (
               permission ===
               'granted'
@@ -389,8 +450,7 @@ function Scanner() {
                 'Motion detection active'
               )
             }
-          }
-        )
+          })
       } else {
         window.addEventListener(
           'devicemotion',
