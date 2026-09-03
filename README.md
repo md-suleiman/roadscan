@@ -1,45 +1,76 @@
-# 🚗 RoadScan 🛣️
+# 🚗 RoadScan
+
+### Smart Road Monitoring & Pothole Detection
 
 RoadScan is a smart road-monitoring web application that detects potential potholes using smartphone motion sensors and GPS location data.
 
-Detected road hazards are stored in Firebase and displayed on an interactive map, allowing users to identify and receive warnings about nearby potholes.
+🔗 **[🌐 Live Demo](https://roadscan.onrender.com/)**
+
+---
 
 ## ✨ Features
 
-* 📱 Motion-based pothole detection
-* 📊 Minor, Moderate & Severe severity classification
-* 🚧 False-positive filtering for speed breakers and walking motion
-* 📍 GPS-based pothole location
-* 🗺️ Interactive hazard map with user direction
-* ⚠️ Nearby pothole warnings
-* 🔄 Duplicate report merging and report counting
-* 🧪 Detection simulation for demonstration
+* 📱 **Motion-Based Pothole Detection**
+  Detects sudden road impacts using smartphone motion sensors.
+
+* 📊 **Severity Classification**
+  Classifies detected impacts as **Minor, Moderate, or Severe**.
+
+* 🚧 **False-Positive Filtering**
+  Filters patterns associated with **speed breakers and walking motion** to reduce incorrect detections.
+
+* 📍 **GPS Location Tracking**
+  Associates detected road hazards with their geographical location.
+
+* 🗺️ **Interactive Hazard Map**
+  Displays reported potholes along with the user's location and direction.
+
+* ⚠️ **Nearby Pothole Warnings**
+  Alerts users when they approach a previously reported road hazard.
+
+* 🔄 **Duplicate Report Merging**
+  Combines reports detected near the same location to reduce duplicate entries.
+
+* 👥 **Report Counting**
+  Tracks multiple detections of the same road hazard.
+
+* 🧪 **Detection Simulation**
+  Allows the detection workflow to be demonstrated without requiring an actual road impact.
+
+---
 
 ## 🧠 How It Works
 
-📱 Smartphone Motion Sensor
-↓
-💥 Impact Detection
-↓
-🚧 False-Positive Filtering
-↓
-📊 Severity Classification
-↓
-📍 GPS Location
-↓
-🔥 Firebase
-↓
-🗺️ Interactive Map
-↓
-⚠️ Nearby Hazard Warning
+```text
+        📱 Smartphone Motion Sensor
+                    ↓
+            Impact Detection
+                    ↓
+          False-Positive Filtering
+                    ↓
+          Severity Classification
+                    ↓
+               📍 GPS Location
+                    ↓
+              🔥 Firebase
+                    ↓
+            🗺️ Interactive Map
+                    ↓
+          ⚠️ Nearby Hazard Warning
+```
 
-RoadScan analyzes smartphone motion data to identify sudden road impacts. The system filters patterns that may correspond to walking or speed breakers before classifying an impact as a potential pothole.
+RoadScan analyzes smartphone motion data to identify sudden road impacts. Potential false positives, such as walking motion and speed breakers, are filtered before an impact is classified by severity.
 
-Each detected pothole is associated with the user's GPS location and stored in Firebase. Nearby reports are merged to reduce duplicates, while the interactive map displays reported hazards and warns users when they approach them.
+Each detected road hazard is associated with its GPS location and stored in Firebase. Reports from nearby locations are merged to reduce duplicates, while the interactive map displays reported hazards and provides warnings when users approach them.
+
+---
 
 ## 🛠️ Tech Stack
 
-* ⚛️ Frontend: React, Vite, JavaScript
-* 🔥 Database: Firebase
-* 🗺️ Maps: Leaflet, React Leaflet, OpenStreetMap
-* 📱 Device APIs: Geolocation, Device Motion, Device Orientation
+| Category        | Technologies                                   |
+| --------------- | ---------------------------------------------- |
+| **Frontend**    | React, JavaScript                              |
+| **Build Tool**  | Vite                                           |
+| **Database**    | Firebase                                       |
+| **Mapping**     | Leaflet, React Leaflet, OpenStreetMap          |
+| **Device APIs** | Geolocation, Device Motion, Device Orientation |
