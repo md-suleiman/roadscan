@@ -1,16 +1,45 @@
-# React + Vite
+# 🚗 RoadScan 🛣️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+RoadScan is a smart road-monitoring web application that detects potential potholes using smartphone motion sensors and GPS location data.
 
-Currently, two official plugins are available:
+Detected road hazards are stored in Firebase and displayed on an interactive map, allowing users to identify and receive warnings about nearby potholes.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Features
 
-## React Compiler
+* 📱 Motion-based pothole detection
+* 📊 Minor, Moderate & Severe severity classification
+* 🚧 False-positive filtering for speed breakers and walking motion
+* 📍 GPS-based pothole location
+* 🗺️ Interactive hazard map with user direction
+* ⚠️ Nearby pothole warnings
+* 🔄 Duplicate report merging and report counting
+* 🧪 Detection simulation for demonstration
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🧠 How It Works
 
-## Expanding the ESLint configuration
+📱 Smartphone Motion Sensor
+↓
+💥 Impact Detection
+↓
+🚧 False-Positive Filtering
+↓
+📊 Severity Classification
+↓
+📍 GPS Location
+↓
+🔥 Firebase
+↓
+🗺️ Interactive Map
+↓
+⚠️ Nearby Hazard Warning
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+RoadScan analyzes smartphone motion data to identify sudden road impacts. The system filters patterns that may correspond to walking or speed breakers before classifying an impact as a potential pothole.
+
+Each detected pothole is associated with the user's GPS location and stored in Firebase. Nearby reports are merged to reduce duplicates, while the interactive map displays reported hazards and warns users when they approach them.
+
+## 🛠️ Tech Stack
+
+* ⚛️ Frontend: React, Vite, JavaScript
+* 🔥 Database: Firebase
+* 🗺️ Maps: Leaflet, React Leaflet, OpenStreetMap
+* 📱 Device APIs: Geolocation, Device Motion, Device Orientation
